@@ -1,0 +1,25 @@
+{
+  "name": "calendar-backend-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["calendar-backend"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "calendar-backend-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["calendar-backend:build"]
+    },
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["tsc -b tsconfig.json --incremental", "tsc -b tsconfig.spec.json --incremental"],
+        "cwd": "calendar-backend-e2e",
+        "parallel": false
+      }
+    }
+  }
+}

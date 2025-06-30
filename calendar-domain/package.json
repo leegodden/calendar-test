@@ -1,0 +1,12 @@
+{
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./mikro-orm.config.ts"
+    ],
+    "tsConfigPath": "./tsconfig.mikro.json"
+  },
+  "devDependencies": {
+    "@mikro-orm/cli": "5.3.1"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "calendar-domain",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "calendar-domain/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project calendar-domain --web",
+  "targets": {
+    "schema-recreate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["mikro-orm schema:drop -r", "mikro-orm schema:create -r"],
+        "cwd": "calendar-domain",
+        "parallel": false
+      }
+    },
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["tsc -b tsconfig.lib.json --incremental", "tsc -b tsconfig.spec.json --incremental"],
+        "cwd": "calendar-domain",
+        "parallel": false
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "calendar-frontend-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "calendar-frontend-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["calendar-frontend"],
+  "// targets": "to see all targets run: nx show project calendar-frontend-e2e --web",
+  "targets": {
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["tsc -b tsconfig.json --incremental"],
+        "cwd": "calendar-frontend-e2e",
+        "parallel": false
+      }
+    }
+  }
+}

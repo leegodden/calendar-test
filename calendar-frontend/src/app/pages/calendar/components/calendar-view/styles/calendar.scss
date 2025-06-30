@@ -1,0 +1,48 @@
+$event-bg: #6d1b98;
+$event-border: #4e136d;
+$event-outline: lighten($event-bg, 10%);
+
+$today-highlight-bg: #f8f4ff;
+
+@import '../../../../../../../../node_modules/react-big-calendar/lib/sass/styles';
+@import '../../../../../../../../node_modules/react-big-calendar/lib/addons/dragAndDrop/styles.css';
+
+.cursor {
+  cursor: pointer;
+}
+
+.rbc-event {
+  background-color: #49819b !important;
+  border-color: #49819b !important;
+  font-family: Georgia, serif !important;
+  font-size: 14px !important;
+  border-radius: 5px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  border-left: 5px solid #28536e !important;
+}
+
+.rbc-event:hover {
+  background-color: #396e87 !important;
+}
+
+.rbc-event.rbc-selected {
+  background-color: #2b5d75 !important;
+}
+
+.rbc-day-slot .rbc-event-content {
+  width: 100%;
+  flex: 1 1 0;
+  word-wrap: break-word;
+  height: 100%;
+  min-height: 1em;
+}
+
+.event-modal-button.event-modal-button--primary {
+  border: none;
+  background-color: #49819b;
+  color: white;
+}
+
+.event-modal-button.event-modal-button--primary:hover {
+  background-color: #396e87;
+}

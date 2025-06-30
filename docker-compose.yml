@@ -1,0 +1,81 @@
+
+x-db-creds: &db-env
+  MIKRO_ORM_HOST: database
+  MIKRO_ORM_PORT: 3306
+  MIKRO_ORM_USER: root
+  MIKRO_ORM_PASSWORD: ""
+  MIKRO_ORM_DB_NAME: techtest
+
+services:
+  database:
+    image: mysql:8.0.32
+    container_name: database
+    working_dir: /project
+    environment:
+      MYSQL_DATABASE: techtest
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    ports:
+      - '3310:3306'
+    command: --default-authentication-plugin=mysql_native_password --max_allowed_packet=1073741824
+    restart: always
+    networks:
+      - docker_network
+
+  calendar-backend:
+    container_name: calendar-backend
+    image: nx-cli-local
+    ports:
+      - '3344:3344'
+    working_dir: /home/node/app
+    volumes:
+      - .:/home/node/app
+      # Exclude node modules and nx cache
+      - /home/node/app/node_modules
+      - /home/node/app/.nx
+    environment:
+      <<: *db-env
+      PORT: 3344
+      PROJECT_NAME: calendar-backend
+    networks:
+      - docker_network
+
+  calendar-frontend:
+    container_name: calendar-frontend
+    image: nx-cli-local
+    ports:
+      - '4200:4200'
+    working_dir: /home/node/app
+    volumes:
+      - .:/home/node/app
+      # Exclude node modules and nx cache
+      - /home/node/app/node_modules
+      - /home/node/app/.nx
+    environment:
+      PROJECT_NAME: calendar-frontend
+    networks:
+      - docker_network
+
+  setup-db:
+    container_name: setup-db
+    image: nx-cli-local
+    working_dir: /home/node/app
+    volumes:
+      - .:/home/node/app
+      # Exclude node modules and nx cache
+      - /home/node/app/node_modules
+      - /home/node/app/.nx
+    environment:
+      <<: *db-env
+      PROJECT_NAME: calendar-domain
+    entrypoint: /bin/sh -c
+    command: >
+      "
+        npx nx run calendar-domain:schema-recreate
+      "
+    networks:
+      - docker_network
+    depends_on:
+      - database
+
+networks:
+  docker_network:

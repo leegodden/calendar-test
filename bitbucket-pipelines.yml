@@ -1,0 +1,63 @@
+image: node:20
+
+clone:
+  depth: full
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: 'Install'
+          script:
+            - npm ci --foreground-scripts
+          caches:
+            - node
+      - parallel:
+        - step:
+            name: 'Lint & Type Check'
+            script:
+              - npm run all:type-check
+              - npm run all:lint
+            caches:
+              - node
+        - step:
+            name: 'Build'
+            script:
+              - npx nx run-many --target=build --all
+            caches:
+              - node
+        - step:
+            name: 'Test'
+            script:
+              - npm run all:test
+            caches:
+              - node
+
+  branches:
+    master:
+      - step:
+          name: 'Install'
+          script:
+            - npm ci --foreground-scripts
+          caches:
+            - node
+      - parallel:
+          - step:
+              name: 'Lint & Type Check'
+              script:
+                - npm run all:type-check
+                - npm run all:lint
+              caches:
+                - node
+          - step:
+              name: 'Build'
+              script:
+                - npx nx run-many --target=build --all
+              caches:
+                - node
+          - step:
+              name: 'Test'
+              script:
+                - npm run all:test
+              caches:
+                - node
